@@ -1,0 +1,25 @@
+# Environment Variables
+.env
+backend/.env
+
+# Python specific ignores
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+
+# Virtual environments
+venv/
+env/
+.venv/
+ENV/
+env.bak/
+venv.bak/
+
+# Database / SQLite (Even though we use MySQL, good practice)
+*.db
+*.sqlite3
+
+# OS specific
+.DS_Store
+Thumbs.db

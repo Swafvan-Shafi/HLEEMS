@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HLEEMS - Warden Dashboard</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/dashboard.css">
+</head>
+<body>
+    <nav class="dashboard-nav">
+        <h1 class="text-gradient">HLEEMS Warden</h1>
+        <div class="nav-user">
+            <span id="welcomeName">Welcome</span>
+            <a onclick="logout()" class="logout-link">Logout</a>
+        </div>
+    </nav>
+
+    <!-- Context Switcher Controls -->
+    <div style="max-width: 1200px; margin: 20px auto 0; padding: 0 20px; display: flex; gap: 10px;">
+        <button class="btn btn-primary" onclick="switchTab('requestsModule')">Pending Requests</button>
+        <button class="btn btn-primary" onclick="switchTab('resolvedModule')">Approved / Rejected</button>
+        <button class="btn btn-primary" onclick="switchTab('studentInfoModule')">View Student Info</button>
+    </div>
+
+    <div class="dashboard-container">
+
+        <!-- Active Requests Module -->
+        <div id="requestsModule" class="glass-panel card" style="display: block;">
+            <h3>Review Pending Requests</h3>
+            
+            <div style="display: flex; gap: 15px; margin-bottom: 20px;">
+                <select id="requestFilter" class="form-group" style="margin: 0; min-width: 150px;">
+                    <option value="all">All Pending</option>
+                    <option value="exit">Exit Pending</option>
+                    <option value="late_entry">Late Entry Pending</option>
+                </select>
+                <input type="text" id="requestSearch" placeholder="Search by Student Roll No" class="form-group" style="margin: 0; flex: 1;">
+                <button class="btn btn-primary" onclick="loadRequests('pending')">Filter</button>
+            </div>
+
+            <div style="overflow-x: auto;">
+                <table id="requestsTable">
+                    <thead>
+                        <tr>
+                            <th>Student</th>
+                            <th>Type</th>
+                            <th>Requested Context</th>
+                            <th>Reason</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <!-- Populated via JS -->
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- Resolved Requests History Module -->
+        <div id="resolvedModule" class="glass-panel card" style="display: none;">
+            <h3>Approved & Rejected History</h3>
+            
+            <div style="display: flex; gap: 15px; margin-bottom: 20px;">
+                <select id="resolvedFilter" class="form-group" style="margin: 0; min-width: 150px;">
+                    <option value="all">All Resolved</option>
+                    <option value="exit">Exit Resolved</option>
+                    <option value="late_entry">Late Entry Resolved</option>
+                </select>
+                <input type="text" id="resolvedSearch" placeholder="Search by Student Roll No" class="form-group" style="margin: 0; flex: 1;">
+                <button class="btn btn-primary" onclick="loadRequests('resolved')">Filter</button>
+            </div>
+
+            <div style="overflow-x: auto;">
+                <table id="resolvedTable">
+                    <thead>
+                        <tr>
+                            <th>Student</th>
+                            <th>Type</th>
+                            <th>Requested Context</th>
+                            <th>Status Result</th>
+                            <th>Resolved On</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <!-- Populated via JS -->
+                    </tbody>
+                </table>
+            </div>
+        </div>
+            
+        <!-- View Student Module -->
+        <div id="studentInfoModule" class="glass-panel card" style="display: none;">
+            <h3>Student View Only Profiler</h3>
+            <div style="display: flex; gap: 10px; margin-bottom: 20px;">
+                <input type="text" id="studentSearchInput" placeholder="Enter Full Student Roll No..." class="form-group" style="margin: 0; flex: 1;">
+                <button class="btn btn-primary" onclick="searchStudentInfo()">Pull Data</button>
+            </div>
+            <div id="studentInfoResult" class="hidden">
+                 <table class="data-table">
+                     <tr><th>Roll No</th><td id="di_roll"></td></tr>
+                     <tr><th>Name</th><td id="di_name"></td></tr>
+                     <tr><th>Email</th><td id="di_email"></td></tr>
+                     <tr><th>Phone</th><td id="di_phone"></td></tr>
+                     <tr><th>Room Number</th><td id="di_room"></td></tr>
+                     <tr><th>Hostel Block</th><td id="di_block"></td></tr>
+                 </table>
+                 <p style="color: gray; font-size: 0.8em; margin-top: 10px;">* Data logic is strictly read-only for Warden operations.</p>
+            </div>
+            <div id="studentInfoError" class="error-msg hidden"></div>
+        </div>
+
+    </div>
+    <script src="js/api.js"></script>
+    <script src="js/warden.js"></script>
+</body>
+</html>

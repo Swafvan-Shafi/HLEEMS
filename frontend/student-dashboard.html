@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HLEEMS - Student Dashboard</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/dashboard.css">
+</head>
+<body>
+    <nav class="dashboard-nav">
+        <h1 class="text-gradient">HLEEMS Student</h1>
+        <div class="nav-user">
+            <span id="welcomeName">Welcome</span>
+            <a onclick="logout()" class="logout-link">Logout</a>
+        </div>
+    </nav>
+
+
+    <div class="dashboard-container">
+        <div class="grid-cards">
+            <!-- Submit Request Form -->
+            <div class="glass-panel card">
+                <h3>Submit Permission Request</h3>
+                <form id="requestForm">
+                    <div class="form-group">
+                        <label for="reqType">Request Type</label>
+                        <select id="reqType" required>
+                            <option value="" disabled selected>Select Request Type</option>
+                            <option value="late_entry">Late Entry Request</option>
+                            <option value="exit">Exit Request</option>
+                        </select>
+                    </div>
+
+                    <!-- Late Entry Specifics -->
+                    <div id="lateEntryGroup" style="display: none;">
+                        <div class="form-group">
+                            <label for="entryDate">Entry Date</label>
+                            <input type="date" id="entryDate">
+                        </div>
+                        <div class="form-group">
+                            <label for="entryTime">Expected Entry Time (must be > 21:00)</label>
+                            <input type="time" id="entryTime">
+                        </div>
+                    </div>
+
+                    <!-- Exit Specifics -->
+                    <div id="exitGroup" style="display: none;">
+                        <div class="form-group">
+                            <label for="exitTime">Requested Exit Time</label>
+                            <input type="time" id="exitTime">
+                        </div>
+                        <div class="form-group">
+                            <label for="reentryTime">Re-entry Time</label>
+                            <input type="time" id="reentryTime">
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="reason">Reason (Required)</label>
+                        <textarea id="reason" rows="3" required></textarea>
+                    </div>
+                    <button type="submit" class="btn btn-primary" style="width: 100%">Submit Request</button>
+                    <div id="reqMessage"></div>
+                </form>
+            </div>
+
+
+            <!-- Active Requests -->
+            <div class="glass-panel card" style="grid-column: span 2;">
+                <h3>My Requests Status</h3>
+                <div style="overflow-x: auto;">
+                    <table id="requestsTable">
+                        <thead>
+                            <tr>
+                                <th>Type</th>
+                                <th>Schedule Required</th>
+                                <th>Reason</th>
+                                <th>Status</th>
+                                <th>Submitted On</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <!-- Populated via JS -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+        </div>
+    </div>
+    
+    <!-- Password Reset Hidden Dropdown Moved To Bottom -->
+    <div style="max-width: 1200px; margin: 40px auto; padding: 0 20px; display: flex; justify-content: flex-end;">
+        <button class="btn btn-primary" style="padding: 0.5rem 1rem; font-size: 0.8em;" onclick="togglePasswordForm()">Change Password</button>
+    </div>
+
+    <div id="passwordWrapper" class="glass-panel" style="max-width: 1200px; margin: -20px auto 40px; padding: 20px; display: none;">
+        <h3>Reset Account Credentials</h3>
+        <form id="passwordForm" style="display: flex; gap: 15px; align-items:flex-end; flex-wrap: wrap;">
+            <div class="form-group" style="margin: 0; flex: 1; min-width: 200px;">
+                <label for="curPass">Current Password</label>
+                <input type="password" id="curPass" required>
+            </div>
+            <div class="form-group" style="margin: 0; flex: 1; min-width: 200px;">
+                <label for="newPass">New Password</label>
+                <input type="password" id="newPass" required>
+            </div>
+            <div class="form-group" style="margin: 0; flex: 1; min-width: 200px;">
+                <label for="confPass">Confirm New Password</label>
+                <input type="password" id="confPass" required>
+            </div>
+            <button type="submit" class="btn btn-danger" style="margin: 0; min-width: 150px;">Save Changes</button>
+        </form>
+        <div id="pwMessage" style="margin-top: 10px;"></div>
+    </div>
+
+    <!-- Administrative Warning Notification Modal -->
+    <div id="lateWarningModal" class="modal-overlay" style="display: none;">
+        <div class="glass-panel modal-content" style="border: 2px solid var(--danger-color); box-shadow: 0 4px 15px rgba(231, 76, 60, 0.4);">
+            <div style="display:flex; justify-content: space-between; align-items:center; border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 10px; margin-bottom: 15px;">
+                <h3 style="color: var(--danger-color); margin: 0;">⚠️ Administrative Action Warning ⚠️</h3>
+                <span class="close-btn" onclick="dismissWarningModal()">&times;</span>
+            </div>
+            <p style="font-size: 1.1em; margin-bottom: 10px;">
+                Our records indicate that you have surpassed the accepted threshold for registered <strong>Late Entries</strong> logic against your hostel logs.
+            </p>
+            <p>
+                An automated email notification has been dispatched to your registered address. Please assure you strictly adhere to physical regulations natively, or you may face suspension actions.
+            </p>
+            <button class="btn btn-primary" onclick="dismissWarningModal()" style="margin-top: 20px; width: 100%;">I Understand</button>
+        </div>
+    </div>
+
+    <script src="js/api.js"></script>
+    <script src="js/student.js"></script>
+</body>
+</html>

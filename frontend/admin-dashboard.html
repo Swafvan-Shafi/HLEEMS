@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HLEEMS - Admin Dashboard</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/dashboard.css">
+</head>
+<body>
+    <nav class="dashboard-nav">
+        <h1 class="text-gradient">HLEEMS Admin</h1>
+        <div class="nav-user">
+            <span id="welcomeName">Administrator</span>
+            <a onclick="logout()" class="logout-link">Logout</a>
+        </div>
+    </nav>
+
+    <div class="dashboard-container">
+        <div class="grid-cards">
+            
+            <!-- User Creation Hub -->
+            <div class="glass-panel card" style="grid-column: span 3;">
+                <h3>User Creation Hub</h3>
+                <div class="form-group">
+                    <label for="creationSelector">What kind of user do you want to create?</label>
+                    <select id="creationSelector">
+                        <option value="" disabled selected>-- Select a Role --</option>
+                        <option value="student">Student</option>
+                        <option value="warden">Warden</option>
+                        <option value="admin">Administrator</option>
+                    </select>
+                </div>
+                
+                <hr style="border: 1px solid rgba(255,255,255,0.1); margin: 15px 0;">
+
+                <!-- Form sections dynamically toggled -->
+                
+                <!-- Create Student -->
+                <form id="createStudentForm" style="display: none;">
+                    <h4>Create Student</h4>
+                    <div class="form-group">
+                        <label>StudentID (Roll No)</label>
+                        <input type="text" id="s_student_id" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Full Name</label>
+                        <input type="text" id="s_name" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Email</label>
+                        <input type="email" id="s_email" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Password</label>
+                        <input type="password" id="s_password" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Phone Number</label>
+                        <input type="text" id="s_phone">
+                    </div>
+                    <div class="form-group">
+                        <label>Room Number</label>
+                        <input type="text" id="s_room_number" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Hostel Block</label>
+                        <select id="s_block_id" required></select>
+                    </div>
+                    <button type="submit" class="btn btn-primary" style="width: 100%">Create Student</button>
+                    <div id="studentMessage"></div>
+                </form>
+
+                <!-- Create Warden -->
+                <form id="createWardenForm" style="display: none;">
+                    <h4>Create Warden</h4>
+                    <div class="form-group">
+                        <label>WardenID (Staff ID)</label>
+                        <input type="text" id="w_warden_id" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Full Name</label>
+                        <input type="text" id="w_name" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Email</label>
+                        <input type="email" id="w_email" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Password</label>
+                        <input type="password" id="w_password" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Phone Number</label>
+                        <input type="text" id="w_phone">
+                    </div>
+                    <div class="form-group">
+                        <label>Assign Block</label>
+                        <select id="w_block_id" required></select>
+                    </div>
+                    <button type="submit" class="btn btn-primary" style="width: 100%">Create Warden</button>
+                    <div id="wardenMessage"></div>
+                </form>
+                
+                <!-- Create Admin -->
+                <form id="createAdminForm" style="display: none;">
+                    <h4>Create Administrator</h4>
+                    <div class="form-group">
+                        <label>Admin ID</label>
+                        <input type="text" id="a_admin_id" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Password</label>
+                        <input type="password" id="a_password" required>
+                    </div>
+                    <button type="submit" class="btn btn-primary" style="width: 100%">Create Admin</button>
+                    <div id="adminMessage"></div>
+                </form>
+            </div>
+
+            <!-- User Directory -->
+            <div class="glass-panel card" style="grid-column: span 3;">
+                <h3>System Users Directory</h3>
+                <p style="font-size: 0.9em; margin-bottom: 15px;">Click on a User ID to view and edit their specific profile logic.</p>
+                <div style="overflow-x: auto;">
+                    <table id="usersTable">
+                        <thead>
+                            <tr>
+                                <th>User ID (Click to View)</th>
+                                <th>Name</th>
+                                <th>Email</th>
+                                <th>Role</th>
+                                <th>Date Created</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <!-- Populated via JS -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Edit Profile Modal -->
+    <div id="profileModal" class="modal-overlay" style="display: none;">
+        <div class="glass-panel modal-content">
+            <span class="close-btn" onclick="closeProfileModal()">&times;</span>
+            <h3 id="modalTitle">Edit Profile</h3>
+            <form id="editProfileForm">
+                <input type="hidden" id="edit_user_id">
+                <input type="hidden" id="edit_user_role">
+                
+                <div id="editFields">
+                    <!-- Javascript populates standard fields dynamically -->
+                </div>
+                
+                <button type="submit" class="btn btn-primary" style="width: 100%; margin-top: 15px;">Save Updates</button>
+                <div id="editMessage"></div>
+            </form>
+        </div>
+    </div>
+
+    <script src="js/api.js"></script>
+    <script src="js/admin.js"></script>
+</body>
+</html>
